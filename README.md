@@ -1,59 +1,69 @@
-# Notes
+# Notes App
 
-This project was generated using [Angular CLI](https://github.com/angular/angular-cli) version 20.3.6.
+A modern, responsive note-taking application built with Angular 20 and Firebase Firestore.
 
-## Development server
+## Features
 
-To start a local development server, run:
+- **Create Notes**: Add new notes with title and content.
+- **Edit Notes**: Inline editing of existing notes.
+- **Delete Notes**: Move notes to trash or permanently delete them.
+- **Favorite Notes**: Mark notes as favorites for quick access.
+- **Trash Management**: View and restore notes from trash.
+- **Filtering**: Filter notes by all or favorites.
+- **Responsive Design**: Works seamlessly on desktop and mobile devices.
+- **Real-time Sync**: Data synchronized with Firebase Firestore.
 
-```bash
-ng serve
-```
+## Tech Stack
 
-Once the server is running, open your browser and navigate to `http://localhost:4200/`. The application will automatically reload whenever you modify any of the source files.
+- **Frontend**: Angular 20 (Standalone Components)
+- **Backend**: Firebase Firestore
+- **Styling**: SCSS
+- **Build Tool**: Angular CLI
+- **Package Manager**: npm
 
-## Code scaffolding
+## Prerequisites
 
-Angular CLI includes powerful code scaffolding tools. To generate a new component, run:
+- Node.js (v18 or higher)
+- npm (comes with Node.js)
+- Firebase Account (for Firestore setup)
 
-```bash
-ng generate component component-name
-```
+## Installation
 
-For a complete list of available schematics (such as `components`, `directives`, or `pipes`), run:
+1. Clone the repository:
+   ```bash
+   git clone <repository-url>
+   cd notes
+   ```
 
-```bash
-ng generate --help
-```
+2. Install dependencies:
+   ```bash
+   npm install
+   ```
 
-## Building
+3. Set up Firebase:
+   - Create a Firebase project at [Firebase Console](https://console.firebase.google.com/).
+   - Enable Firestore Database.
+   - Update `src/app/app.config.ts` with your Firebase configuration.
 
-To build the project run:
+4. Run the application:
+   ```bash
+   npm start
+   ```
 
-```bash
-ng build
-```
+   The app will be available at `http://localhost:4200`.
 
-This will compile your project and store the build artifacts in the `dist/` directory. By default, the production build optimizes your application for performance and speed.
+## Scripts
 
-## Running unit tests
+- `npm start`: Start the development server
+- `npm run build`: Build the project for production
+- `npm run watch`: Build and watch for changes
+- `npm test`: Run unit tests
 
-To execute unit tests with the [Karma](https://karma-runner.github.io) test runner, use the following command:
+## License
 
-```bash
-ng test
-```
+This project is licensed under the MIT License.
 
-## Running end-to-end tests
+## Acknowledgments
 
-For end-to-end (e2e) testing, run:
-
-```bash
-ng e2e
-```
-
-Angular CLI does not come with an end-to-end testing framework by default. You can choose one that suits your needs.
-
-## Additional Resources
-
-For more information on using the Angular CLI, including detailed command references, visit the [Angular CLI Overview and Command Reference](https://angular.dev/tools/cli) page.
+- Built with Angular and Firebase.
+- Icons from various sources (see assets folder).

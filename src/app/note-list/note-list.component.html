@@ -130,15 +130,14 @@
         </div>
     </div>
     <div>
-        @if (status != 'trash') {
+        @if (status == 'notes') {
             @for (note of getList(); track note) {
                 <app-note [note]="note"></app-note>
             }
-        }@else if(status == 'trash'){
+        }@else{
             @for (note of getTrash(); track note) {
                 <app-note [note]="note"></app-note>
             }
         }
-        
     </div>
 </div>

@@ -1,36 +1,31 @@
-import { Injectable } from '@angular/core';
-import { inject } from '@angular/core';
-import { Firestore, doc, collection, onSnapshot, addDoc, setDoc, updateDoc, deleteDoc } from '@angular/fire/firestore';
+import { Injectable, OnDestroy } from '@angular/core';
+import { Firestore, doc, collection, onSnapshot, addDoc, setDoc, updateDoc, deleteDoc, query, orderBy, limit, where } from '@angular/fire/firestore';
 import { Note } from '../interfaces/note.interface';
-import { object } from '@angular/fire/database';
 
 
 @Injectable({
   providedIn: 'root'
 })
-export class NoteListService {
+export class NoteListService implements OnDestroy {
   trashNotes:Note[]= [];
   normalNotes:Note[]=[];
-  firestore:Firestore = inject(Firestore);
+  normalMarkedNotes:Note[]=[];
 
-  unsubNoteList;
-  unsubTrashList;
+  unsubNoteList: any;
+  unsubTrashList: any;
+  unsubMarkedList: any;
   // unsingle;
 
-  constructor() { 
+  constructor(private firestore: Firestore) { 
     this.unsubTrashList = this.subTrashList();
     this.unsubNoteList = this.subNotesList();
-
-
-    // this.unsingle = onSnapshot(this.getSingleDocRef('notes', 'KW1QRINuSZuWe8wEXhEY'), (list)=>{
-    //     console.log(list.data());
-    // })
-
+    this.unsubMarkedList = this.subNotesMarkedList();
   }
 
   ngOnDestroy(){
-    this.unsubNoteList();
-    this.unsubTrashList();
+    try{ this.unsubNoteList && this.unsubNoteList(); }catch(e){/* ignore */}
+    try{ this.unsubTrashList && this.unsubTrashList(); }catch(e){/* ignore */}
+    try{ this.unsubMarkedList && this.unsubMarkedList(); }catch(e){/* ignore */}
   }
 
   subTrashList(){
@@ -43,10 +38,32 @@ export class NoteListService {
   }
 
   subNotesList(){
-    return onSnapshot(this.getNotesRef(), (list)=>{
+    const q = query(this.getNotesRef(), limit(100))
+    return onSnapshot(q, (list)=>{
       this.normalNotes = [];
       list.forEach(element =>{
         this.normalNotes.push(this.setNoteObject(element.id, element.data()))
+      })
+      list.docChanges().forEach((change) =>{
+        if(change.type === 'added'){
+          console.log("New note: ", change.doc.data())
+        }
+        if(change.type === 'modified'){
+          console.log("Update note: ", change.doc.data())
+        }
+        if(change.type === 'removed'){
+          console.log("Removed note: ", change.doc.data())
+        }
+      })
+    })
+  }
+
+  subNotesMarkedList(){
+    const q = query(this.getNotesRef(), where('marked', '==', true), limit(100))
+    return onSnapshot(q, (list)=>{
+      this.normalMarkedNotes = [];
+      list.forEach(element =>{
+        this.normalMarkedNotes.push(this.setNoteObject(element.id, element.data()))
       })
     })
   }

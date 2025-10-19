@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component} from '@angular/core';
 import { Note } from '../interfaces/note.interface';
 import { NoteListService } from '../firebase-services/note-list.service';
 import { FormsModule } from '@angular/forms';
@@ -20,11 +20,17 @@ export class NoteListComponent {
   status: "notes" | "trash" = "notes";
 
   constructor(public noteService: NoteListService) {
-
+      this.getList();
+      this.getTrash();
+    
   }
 
   getList():Note[]{
-    return this.noteService.normalNotes;
+    if(this.favFilter === 'all'){
+      return this.noteService.normalNotes;
+    }else{
+      return this.noteService.normalMarkedNotes
+    }
   }
 
   getTrash():Note[]{
